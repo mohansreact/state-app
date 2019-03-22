@@ -1,25 +1,64 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      friends: [
+        {
+          name: 'mohan',
+          hobbies: ['football', 'react']
+        }, {
+          name: 'bhargav',
+          hobbies: ['cricket', 'd3']
+        }, {
+          name: 'sai',
+          hobbies: ['batting', 'CS']
+        }, {
+          name: 'manoj',
+          hobbies: ['music', 'angular']
+        }
+      ]
+    };
+    
+    setTimeout(() => {
+      const randFrnd = Math.floor(
+        Math.random() *
+        this.state.friends.length
+      );
+      
+      const hobbyIndex = Math.floor(
+        Math.random() *
+        this.state.friends[randFrnd].length
+      );
+      const friends = this.state.friends.map((frnd, i) => {
+        if(i === randFrnd) {
+        const hobbies = [...frnd.hobbies];
+        hobbies.splice(hobbyIndex, 1);
+        return {
+          ...frnd,
+          hobbies
+        };
+      }
+        return frnd;
+      });
+      this.setState({friends});
+    }, 5000);
+  }
+  
   render() {
+    const friends = this.state.friends.map((friend, index) => (
+      <li key={index}>
+        <h3>{friend.name}</h3>
+        <h4>Hobbies: {friend.hobbies.join(", ")}</h4>
+      </li>
+    ));
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <ul>
+          {friends}
+        </ul>
       </div>
     );
   }

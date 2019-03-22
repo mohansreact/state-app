@@ -1,5 +1,24 @@
 import React, { Component } from 'react';
+import PropTypes from "prop-types";
 import './App.css';
+
+class FriendItem extends Component {
+  static propTypes = {
+    name: PropTypes.string,
+    hobbies: PropTypes.arrayOf(PropTypes.string)
+  }
+  render() {
+    return(
+        <li>
+          <h3>{this.props.name}</h3>
+          <h4>
+          Hobbies: {this.props.hobbies.join(',')}
+          </h4>
+        </li>
+      );
+  }
+}
+
 
 class App extends Component {
   constructor(props) {
@@ -49,10 +68,11 @@ class App extends Component {
   
   render() {
     const friends = this.state.friends.map((friend, index) => (
-      <li key={index}>
-        <h3>{friend.name}</h3>
-        <h4>Hobbies: {friend.hobbies.join(", ")}</h4>
-      </li>
+      <FriendItem 
+        key={index}
+        name={friend.name}
+        hobbies={friend.hobbies}
+        />
     ));
     return (
       <div className="App">
